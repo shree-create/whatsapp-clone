@@ -1,9 +1,14 @@
-import { Flex, Text } from '@react-native-material/core';
+import React from "react";
+import { NavigationContainer, NavigationContainerRef, ParamListBase } from "@react-navigation/native";
+import { createRef } from "react";
+import AuthNavigator from "./src/navigation/AuthNavigator";
+
+export const navigationRef = createRef<NavigationContainerRef<ParamListBase>>();
 
 export default function App() {
   return (
-    <Flex bg={'lightblue'} fill center>
-      <Text>hello react native!</Text>
-    </Flex>
+    <NavigationContainer ref={navigationRef}>
+      <AuthNavigator></AuthNavigator>
+    </NavigationContainer>
   );
 }
