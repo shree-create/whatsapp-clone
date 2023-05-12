@@ -10,7 +10,7 @@ export type AuthParamsList = {
 const AuthNavigator = () => {
     const Stack = createNativeStackNavigator<AuthParamsList>();
     return(
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
             <Stack.Screen name='Login' component={Login}></Stack.Screen>
             <Stack.Screen name='Register' component={Register}></Stack.Screen>
         </Stack.Navigator>

@@ -1,19 +1,22 @@
-import { Box, Button, Flex, Text } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { Text, Box, Button, useTheme } from "native-base";
 
 const Login = () => {
   const navigation = useNavigation();
+  const { colors } = useTheme();
   return (
-    <Flex center>
+    <Box safeArea>
       <Text>Login</Text>
       <Button
-        title={"register"}
         onPress={() => {
           navigation.navigate("Register");
         }}
-      ></Button>
-    </Flex>
+        backgroundColor={colors.primary[800]}
+      >
+        <Text>Register</Text>
+      </Button>
+    </Box>
   );
 };
 

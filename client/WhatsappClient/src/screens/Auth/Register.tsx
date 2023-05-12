@@ -1,19 +1,20 @@
-import { Box, Button, Flex, Text } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { Text, Box, Button } from "native-base";
 
 const Register = () => {
   const navigation = useNavigation();
   return (
-    <Flex center>
+    <Box safeArea>
       <Text>Register</Text>
       <Button
-        title={"Login"}
         onPress={() => {
           navigation.navigate("Login");
         }}
-      ></Button>
-    </Flex>
+      >
+        <Text>Login</Text>
+      </Button>
+    </Box>
   );
 };
 
