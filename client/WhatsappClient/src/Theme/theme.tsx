@@ -8,6 +8,10 @@ export const theme = extendTheme({
         secondary: {
             100 : '#ffffff',
         },
+        danger: {
+            900 : '#DA1414',
+            800 : '#F8DADA',
+        },
         black : {
             100 : '#000000',
         }
