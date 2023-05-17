@@ -5,7 +5,7 @@ export const theme = extendTheme({
         primary: {
             800 : '#008069'
         },
-        contrast: {
+        secondary: {
             100 : '#ffffff',
         },
         black : {

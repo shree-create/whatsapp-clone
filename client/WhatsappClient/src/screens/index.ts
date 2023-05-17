@@ -1,3 +1,3 @@
-import { Login, Register } from "./Auth";
+import { Login, OtpScreen } from "./Auth";
 
-export { Login, Register };
+export { Login, OtpScreen };
