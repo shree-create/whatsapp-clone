@@ -1,4 +1,5 @@
 import Login from "./Login";
-import Register from "./Register";
+import OtpScreen from "./OtpScreen";
 
-export { Login, Register };
+export { Login, OtpScreen };
+
