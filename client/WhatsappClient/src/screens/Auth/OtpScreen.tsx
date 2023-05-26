@@ -95,3 +95,4 @@ const OtpScreen = ({ route }: IProp) => {
 };
 
 export default OtpScreen;
+
