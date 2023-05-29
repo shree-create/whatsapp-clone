@@ -1,19 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import {
-  Text,
-  Box,
-  Button,
-  useTheme,
-  Center,
-  Divider,
-  Input,
-  Pressable,
-} from "native-base";
 import { AntDesign } from "@expo/vector-icons";
 import CountryPicker from "react-native-country-picker-modal";
 import { Formik } from "formik";
 import * as yup from "yup";
+import {
+  Box,
+  Center,
+  Text,
+  Pressable,
+  Divider,
+  Button,
+  Input,
+} from "../../../components";
+import { SafeAreaView } from "react-native";
 
 type countryType = {
   name: string;
@@ -40,14 +40,14 @@ const Login = () => {
       .max(10, "too long"),
   });
   const navigation = useNavigation();
-  const { colors } = useTheme();
   return (
-    <Box
-      safeArea
-      marginY={20}
-      justifyContent={"space-between"}
-      alignItems={"center"}
-      flex={1}
+    <SafeAreaView
+      style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingVertical: 10,
+      }}
     >
       <Formik
         validationSchema={loginValidationSchema}
@@ -61,21 +61,30 @@ const Login = () => {
       >
         {({ handleBlur, handleChange, handleSubmit, values, errors }) => (
           <>
-            <Center w={"80%"}>
-              <Text mr={4} fontSize={20} fontWeight={"bold"}>
+            <Center w={"80%"} marginTop={"10%"}>
+              <Text mr={4} fontSize={20} fontWeight={"bold"} color={"$black"}>
                 Enter your phone number
               </Text>
-              <Text fontSize={13} mt={6}>
+              <Text fontSize={13} mt={6} color={"$black"}>
                 WhatsApp will need to verify your phone number.
               </Text>
               <Box w={"100%"} alignItems={"center"} mt={20}>
-                <Box flexDirection={"row"} alignItems={"center"}>
+                <Box
+                  flexDirection={"row"}
+                  alignItems={"center"}
+                  justifyContent={"space-between"}
+                  w={"80%"}
+                >
                   <CountryPicker
                     visible={isSelected}
                     onSelect={onSelect}
                     withFilter={true}
                     renderFlagButton={() => {
-                      return <Text>{countryName}</Text>;
+                      return (
+                        <Text textAlign="center" color={"$black"}>
+                          {countryName}
+                        </Text>
+                      );
                     }}
                   />
                   <Pressable
@@ -87,53 +96,40 @@ const Login = () => {
                     <AntDesign name="caretdown" size={14} color="black" />
                   </Pressable>
                 </Box>
-                <Box w={"70%"}>
-                  <Divider
-                    my="2"
-                    _light={{
-                      bg: colors.primary[800],
-                    }}
-                    _dark={{
-                      bg: "muted.50",
-                    }}
-                  />
+                <Box w={"80%"}>
+                  <Divider my={2} bgColor={"$success800"} />
                 </Box>
                 <Box
                   justifyContent={"space-between"}
                   flexDirection={"row"}
-                  w={"70%"}
+                  w={"80%"}
                 >
                   <Box
                     flexDirection={"row"}
                     alignItems={"center"}
                     justifyContent={"space-around"}
-                    w={"20%"}
-                    borderColor={colors.primary[800]}
+                    w={"15%"}
+                    borderColor={"$success800"}
                     borderBottomWidth={1}
                   >
                     <AntDesign name="plus" size={12} color="black" />
-                    <Text>{countryCode}</Text>
+                    <Text color={"$black"}>{countryCode}</Text>
                   </Box>
-                  <Box w={"75%"}>
-                    <Input
-                      variant="underlined"
-                      fontSize={16}
-                      borderColor={colors.primary[800]}
-                      onChangeText={handleChange("mobileNumber")}
-                      onBlur={handleBlur("mobileNumber")}
-                      value={values.mobileNumber}
-                    ></Input>
+                  <Box w={"80%"}>
+                    <Input variant={"underlined"} borderColor={"$success800"}>
+                      <Input.Input
+                        fontSize={16}
+                        onChangeText={handleChange("mobileNumber")}
+                        borderColor={"$success800"}
+                        onBlur={handleBlur("mobileNumber")}
+                        value={values.mobileNumber}
+                      ></Input.Input>
+                    </Input>
                   </Box>
                 </Box>
                 {errors.mobileNumber && (
-                  <Box
-                    mt={2}
-                    backgroundColor={colors.danger[800]}
-                    px={2}
-                    py={1}
-                    borderRadius={25}
-                  >
-                    <Text fontSize={12} color={colors.danger[900]}>
+                  <Box mt={2} px={2} py={1} borderRadius={25}>
+                    <Text fontSize={12} color={"$red700"}>
                       {errors.mobileNumber}
                     </Text>
                   </Box>
@@ -141,22 +137,20 @@ const Login = () => {
               </Box>
             </Center>
             <Button
-              backgroundColor={colors.primary[800]}
-              px={6}
+              backgroundColor={"$success800"}
               onPress={() => {
                 handleSubmit();
               }}
             >
-              <Text color={colors.secondary[100]} fontWeight={"semibold"}>
+              <Button.Text color={"$white"} fontWeight={"semibold"}>
                 Next
-              </Text>
+              </Button.Text>
             </Button>
           </>
         )}
       </Formik>
-    </Box>
+    </SafeAreaView>
   );
 };
 
 export default Login;
-
