@@ -1,5 +1,5 @@
-import Login from "./Login";
-import OtpScreen from "./OtpScreen";
+import Login from "./Login/Login";
+import OtpScreen from "./OtpScreen/OtpScreen";
 
 export { Login, OtpScreen };
 
