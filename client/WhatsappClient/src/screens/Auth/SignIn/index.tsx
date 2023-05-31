@@ -4,6 +4,7 @@ import React from "react";
 import { Center, Box, Button, Pressable, Text } from "../../../components";
 import TextInput from "../../../components/app/TextInput";
 import * as yup from "yup";
+import axios from 'axios';
 
 const SignIn = () => {
   const navigation = useNavigation();
@@ -28,7 +29,16 @@ const SignIn = () => {
         validationSchema={loginValidationSchema}
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => {
-          console.log("val", values);
+          axios.post('http://localhost:3000/users/signin', {
+            email: values.email,
+            password: values.password
+          })
+          .then((data)=>{
+            console.log('logged in successfully', data.data);
+          })
+          .catch((err)=>{
+            console.log('err', err.response.data.message)
+          })
         }}
       >
         {({ handleChange, handleSubmit, values, errors }) => (

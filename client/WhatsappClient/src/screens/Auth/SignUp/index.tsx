@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Center, Box, Button, Pressable, Text } from "../../../components";
 import TextInput from "../../../components/app/TextInput";
 import * as yup from "yup";
+import axios from "axios";
 
 const SignUp = () => {
   const navigation = useNavigation();
@@ -31,7 +32,18 @@ const SignUp = () => {
         validationSchema={loginValidationSchema}
         initialValues={{ name: "", email: "", password: "" }}
         onSubmit={(values) => {
-          console.log("val", values);
+          axios
+            .post("http://localhost:3000/users/signup", {
+              name: values.name,
+              email: values.email,
+              password: values.password,
+            })
+            .then((data) => {
+              console.log("data...", data.data);
+            })
+            .catch((err) => {
+              console.log("error...", err.message);
+            });
         }}
       >
         {({ handleChange, handleSubmit, values, errors }) => (
