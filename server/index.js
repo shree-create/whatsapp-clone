@@ -1,10 +1,21 @@
-const express = require('express')
+require("dotenv").config();
+const express = require("express");
 const app = express();
+const mongoose = require("mongoose");
+const router = require("./routes/users");
+app.use(express.json());
 
-app.get('/', () => {
-    console.log('initial route......');
-})
+mongoose.connect(process.env.DATABASE_URL);
+const db = mongoose.connection;
+db.on("error", (err) => {
+  console.log("error", err);
+});
+db.once("open", () => {
+  console.log("Connected to the database..");
+});
 
-app.listen(3000, ()=>{
-    console.log('server started..');
-})
+app.use('/users',router)
+
+app.listen(3000, () => {
+  console.log("server started..");
+});
