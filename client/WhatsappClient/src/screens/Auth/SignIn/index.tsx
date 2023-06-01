@@ -1,14 +1,18 @@
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Center, Box, Button, Pressable, Text } from "../../../components";
 import TextInput from "../../../components/app/TextInput";
 import * as yup from "yup";
 import axios from "axios";
+import { setItem } from "../../../utils/commonFunctions";
+import { ACCESS_TOKEN } from "../../../utils/constants";
+import AuthContext from "../../../utils/authContext";
 
 const SignIn = () => {
   const [error, setError] = useState("");
   const navigation = useNavigation();
+  const {setAuthenticated} = useContext(AuthContext);
   const loginValidationSchema = yup.object().shape({
     email: yup
       .string()
@@ -37,7 +41,8 @@ const SignIn = () => {
             })
             .then((data) => {
               setError("");
-              console.log("logged in successfully", data.data);
+              setItem(ACCESS_TOKEN, data.data.accessToken)
+              setAuthenticated(true);
             })
             .catch((err) => {
               setError(err.response.data.message);
