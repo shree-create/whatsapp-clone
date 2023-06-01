@@ -1,12 +1,18 @@
 import { useNavigation } from "@react-navigation/native";
 import { Formik } from "formik";
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Center, Box, Button, Pressable, Text } from "../../../components";
 import TextInput from "../../../components/app/TextInput";
 import * as yup from "yup";
+import axios from "axios";
+import { setItem } from "../../../utils/commonFunctions";
+import { ACCESS_TOKEN } from "../../../utils/constants";
+import AuthContext from "../../../utils/authContext";
 
 const SignIn = () => {
+  const [error, setError] = useState("");
   const navigation = useNavigation();
+  const {setAuthenticated} = useContext(AuthContext);
   const loginValidationSchema = yup.object().shape({
     email: yup
       .string()
@@ -28,13 +34,26 @@ const SignIn = () => {
         validationSchema={loginValidationSchema}
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => {
-          console.log("val", values);
+          axios
+            .post("http://localhost:3000/users/signin", {
+              email: values.email,
+              password: values.password,
+            })
+            .then((data) => {
+              setError("");
+              setItem(ACCESS_TOKEN, data.data.accessToken)
+              setAuthenticated(true);
+            })
+            .catch((err) => {
+              setError(err.response.data.message);
+              console.log("err", err.response.data.message);
+            });
         }}
       >
         {({ handleChange, handleSubmit, values, errors }) => (
           <>
             <Center
-              width={"80%"}
+              width={"90%"}
               backgroundColor={"$white"}
               paddingHorizontal={20}
               paddingVertical={30}
@@ -83,6 +102,25 @@ const SignIn = () => {
                     SignUp
                   </Text>
                 </Pressable>
+              </Box>
+              <Box marginTop={4}>
+                {error != "" ? (
+                  <Text
+                    color={"$red700"}
+                    fontWeight={"$medium"}
+                    key={Math.random().toString()}
+                  >
+                    {error}
+                  </Text>
+                ) : (
+                  <Text
+                    color={"$transparent"}
+                    fontWeight={"$medium"}
+                    key={Math.random().toString()}
+                  >
+                    error
+                  </Text>
+                )}
               </Box>
             </Center>
           </>

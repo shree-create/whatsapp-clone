@@ -4,8 +4,10 @@ import React, { useState } from "react";
 import { Center, Box, Button, Pressable, Text } from "../../../components";
 import TextInput from "../../../components/app/TextInput";
 import * as yup from "yup";
+import axios from "axios";
 
 const SignUp = () => {
+  const [error, setError] = useState("");
   const navigation = useNavigation();
   const loginValidationSchema = yup.object().shape({
     name: yup
@@ -31,13 +33,26 @@ const SignUp = () => {
         validationSchema={loginValidationSchema}
         initialValues={{ name: "", email: "", password: "" }}
         onSubmit={(values) => {
-          console.log("val", values);
+          axios
+            .post("http://localhost:3000/users/signup", {
+              name: values.name,
+              email: values.email,
+              password: values.password,
+            })
+            .then((data) => {
+              setError("");
+              console.log("data...", data.data);
+            })
+            .catch((err) => {
+              console.log("error...", err.response.data.message);
+              setError(err.response.data.message);
+            });
         }}
       >
         {({ handleChange, handleSubmit, values, errors }) => (
           <>
             <Center
-              width={"80%"}
+              width={"90%"}
               backgroundColor={"$white"}
               paddingHorizontal={20}
               paddingVertical={30}
@@ -92,6 +107,21 @@ const SignUp = () => {
                     SignIn
                   </Text>
                 </Pressable>
+              </Box>
+              <Box marginTop={4}>
+                {error != "" ? (
+                  <Text
+                    color={"$red700"}
+                    fontWeight={"$medium"}
+                    key={Math.random().toString()}
+                  >
+                    {error}
+                  </Text>
+                ) : (
+                  <Text color={"$transparent"} fontWeight={"$medium"}>
+                    error
+                  </Text>
+                )}
               </Box>
             </Center>
           </>
